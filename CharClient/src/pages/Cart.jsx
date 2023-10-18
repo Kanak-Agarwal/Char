@@ -1,5 +1,5 @@
 import { Add, Remove } from "@material-ui/icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -9,6 +9,7 @@ import StripeCheckout from "react-stripe-checkout";
 import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
 import { useHistory } from "react-router";
+import { increaseProductQuantity,decreaseProductQuantity,removeFromCart } from "../redux/cartRedux";
 
 const KEY = process.env.REACT_APP_STRIPE;
 
@@ -156,30 +157,34 @@ const Button = styled.button`
   padding: 10px;
   background-color: black;
   color: white;
-  font-weight: 600;
+  font-weight: 600;
 `;
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
   const history = useHistory();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const onToken = (token) => {
     setStripeToken(token);
   };
 
-  // const increase = (product) => {
-  //   // dispatch(addToCart(product));
-  // };
+  const increase = (product) => {
+    dispatch(increaseProductQuantity(product));
+  };
 
-  // const decrease = (product) => {
-  //   // console.log(product);
-  //   // console.log("hi in cart.jsx");
-  //   dispatch(removeFromCart(product));
-  // };
+  const decrease = (product) => {
+    console.log(product.quantity);
+    console.log("hi in cart.jsx");
+    if(product.quantity === 1){
+      dispatch(removeFromCart(product));
+    }else{
+      dispatch(decreaseProductQuantity(product));
+    }
+    
+  };
 
-  // console.log(stripeToken);
   useEffect(() => {
     const makeRequest = async () => {
       try {
@@ -230,9 +235,9 @@ const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Add />
+                  <Add onClick={() => increase(product)} />
                     <ProductAmount>{product.quantity}</ProductAmount>
-                    <Remove />
+                    <Remove onClick={() => decrease(product)} />
                   </ProductAmountContainer>
                   <ProductPrice>
                     $ {product.price * product.quantity}

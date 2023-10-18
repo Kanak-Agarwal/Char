@@ -40,12 +40,19 @@ const Option = styled.option``;
 
 const ProductList = () => {
   const location = useLocation();
+  const [colorFilter,setColorFilter] = useState("Color");
+  const [sizeFilter,setSizeFilter] = useState("Size");
   const cat = location.pathname.split("/")[2];
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState("newest");
 
   const handleFilters = (e) => {
     const value = e.target.value;
+    if(e.target.name === "color"){
+      setColorFilter(value);
+    }else if(e.target.name === "size"){
+      setSizeFilter(value);
+    }
     setFilters({
       ...filters,
       [e.target.name]: value,
@@ -60,8 +67,8 @@ const ProductList = () => {
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
-          <Select name="color" onChange={handleFilters}>
-            <Option disabled>Color</Option>
+          <Select name="color" value={colorFilter} onChange={handleFilters}>
+            <Option disabled >Color</Option>
             <Option>white</Option>
             <Option>black</Option>
             <Option>red</Option>
@@ -69,7 +76,7 @@ const ProductList = () => {
             <Option>yellow</Option>
             <Option>green</Option>
           </Select>
-          <Select name="size" onChange={handleFilters}>
+          <Select name="size" value={sizeFilter} onChange={handleFilters}>
             <Option disabled>Size</Option>
             <Option>XS</Option>
             <Option>S</Option>
@@ -80,7 +87,8 @@ const ProductList = () => {
         </Filter>
         <Filter>
           <FilterText>Sort Products:</FilterText>
-          <Select onChange={(e) => setSort(e.target.value)}>
+          <Select value="None" onChange={(e) => setSort(e.target.value)}>
+            <Option disabled>None</Option>
             <Option value="newest">Newest</Option>
             <Option value="asc">Price (asc)</Option>
             <Option value="desc">Price (desc)</Option>
