@@ -138,13 +138,13 @@ const Footer = () => {
       <Right>
         <Title>Contact</Title>
         <ContactItem>
-          <Room style={{marginRight:"10px"}}/>Jaipur
+          <Room style={{marginRight:"10px"}}/>Ajmer
         </ContactItem>
         <ContactItem>
-          <Phone style={{marginRight:"10px"}}/>+91 9945788291
+          <Phone style={{marginRight:"10px"}}/>+91 8000257147
         </ContactItem>
         <ContactItem>
-          <MailOutline style={{marginRight:"10px"}} /> charusharma140302@gmail.com
+          <MailOutline style={{marginRight:"10px"}} /> kanakagarwal0503@gmail.com
         </ContactItem>
         <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
       </Right>
